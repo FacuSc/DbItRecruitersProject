@@ -3,12 +3,15 @@ from tkinter import messagebox
 from tkinter import ttk
 import openpyxl
 
+
 # Apertura del libro de excel + seleccion de hoja principal
 db = openpyxl.load_workbook('dbrh.xlsx')
-hoja = db.active                        
+hoja = db['Candidatos']        
 
-def trasladarInfo(label, texto):
-    label.configure(text=texto)
+#####################################
+#           FUNCIONES               #
+#####################################
+
 
 def guardarNuevoCandidato():     
     # Igualacion de variables a los entry del formulario                                               
@@ -17,6 +20,7 @@ def guardarNuevoCandidato():
     edad = caja_edad.get()
     email = caja_mail.get()
     grupo = lista_grupo.get()
+    conocimientos = []
 
     # Asignacion de fila y ID a utilizar teniendo en cuenta el último dígito usado (almacenado en el .txt) 
     fileFila = open("ultimaFila.txt", "r")                                             
@@ -58,9 +62,22 @@ def guardarNuevoCandidato():
 
 
 
+
+
+
+###################################
+#           VENTANA               #
+###################################
+
 ventana = tk.Tk()                                                               
-ventana.config(width=600, height=800)                                           
+ventana.config(width=400, height=500)                                           
 ventana.title('Administrador de RRHH')
+
+
+
+#####################################
+#    VENTANA AGREGAR CANDIDATOS     #
+#####################################
 
 label_add = tk.Label(text='Agregar candidatos:')
 label_add.place(x=20, y=20, width=120, height=30)
@@ -96,20 +113,11 @@ lista_grupo = ttk.Combobox(state='readonly',
                         values=['Front End Developer', 'Back End Developer', 'QA Tester', 'Full Stack', 'Diseñador gráfico', 'Otro'] )
 lista_grupo.place(x=90, y=200, width=125, height=20)
 
-
-
-label_libre = tk.Label(text='Label libre')
-label_libre.place(x=250, y=100, width=200, height=200)
-
 opcionSeleccionada = lista_grupo.get()
-lista_grupo.bind("<<ComboboxSelected>>", lambda _ : label_libre.config(text=(opcionSeleccionada + "Seleccionado")))
-
-
-
 
 # Boton de confirmacion
 boton_confirmarCandidato = tk.Button(text='Aceptar', command=guardarNuevoCandidato)
-boton_confirmarCandidato.place(x=50, y=350, width=100, height=30)
+boton_confirmarCandidato.place(x=50, y=260, width=100, height=30)
 
 
 ventana.mainloop()                                                              # Muestro la ventana en loop para que se actualice constantemente.
